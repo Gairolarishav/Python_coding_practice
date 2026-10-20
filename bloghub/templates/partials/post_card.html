@@ -1,0 +1,15 @@
+<article class="card">
+    {% if post.image %}
+    <img src="{{post.image.url}}" alt="{{ post.title}}">
+    {% endif %}
+    <h3><a href="{{ post.get_absolute_url }}">{{ post.title}}</a></h3>
+    <p class="small">
+        by {{post.author.username}}
+        {% if post.category %} | {{post.category.name}} {% endif %}
+        | {{post.created_at|date:"d M Y"}} {{post.views}} views
+    </p>
+    <p>{{post.body|truncatewords:25}}</p>
+    {% for tag in post.tags.all %} 
+        <span class="tag">#{{tag.name}}</span>
+    {% endfor %}
+</article>

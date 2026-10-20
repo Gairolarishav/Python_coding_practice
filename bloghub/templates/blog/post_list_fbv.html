@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} Posts(FBV) {% endblock %}
+
+{% block content %}
+   <h1>All Posts(Function view)</h1>
+   {% for post in posts %}
+       {% include "partials/post_card.html" %}
+    {% empty %}
+       <p>No posts yet.</p>
+   {% endfor %}
+{% endblock %}

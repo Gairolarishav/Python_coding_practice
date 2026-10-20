@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} {{post.title}} {% endblock %}
+
+{% block content %}
+   <article class="card">
+      <h1>{{post.title}}</h1>
+      <p class="small">by {{post.author.username}} | {{post.created_at|date:"d M Y"}} | {{post.views}} views</p>
+      {% if post.image %} <img src="{{post.image.url}}" alt="{{post.title}}">{% endif %}
+      <p>{{post.body|linebreaks}}</p>
+
+      {% if user == post.author %}
+        <a href="{% url 'post_update' post.slug %}">Edit</a>
+        <a href="{% url 'post_delete' post.slug %}">Delete</a>
+      {% endif %}
+   </article>
+
+   <h3>Comments ({{post.comments.all|length}})</h3>
+   {% for c in post.comments.all %}
+      <div class="card"><b>{{c.author.username}}</b>{{c.text}}</div>
+
+   {% empty %}
+      <p>No comments yet.</p>
+   {% endfor %}
+
+   {% if user.is_authenticated %}
+      <form method="POST">
+         {% csrf_token %}
+         {{form.as_p}}
+         <button>Add comment</button>
+      </form>
+   {% else %}
+      <p><a href="{% url 'login' %}">Login</a> to comment</p>
+   {% endif %}
+
+   {% if related %}
+     <h3>Related posts</h3>
+     {% for post in related %}
+        {% include "partials/post_card.html" %}
+     {% endfor %}
+   {% endif %}
+
+
+{% endblock %}

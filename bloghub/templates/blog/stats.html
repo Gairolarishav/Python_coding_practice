@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Stats</h1>
+  <div class="card">
+    Posts: {{ totals.total_posts }} | Views: {{ totals.total_views }} |
+    Average: {{ totals.avg_views|floatformat:1 }} | Max: {{ totals.max_views }} |
+    Edited posts: {{ edited }}
+  </div>
+
+  <h3>Top authors</h3>
+  <ul>{% for a in top_authors %}<li>{{ a.username }} — {{ a.post_count }} posts</li>{% endfor %}</ul>
+
+  <h3>Posts per category</h3>
+  <ul>{% for c in categories %}<li>{{ c.name }} — {{ c.n }}</li>{% endfor %}</ul>
+
+  <h3>Most commented</h3>
+  <ul>{% for p in most_commented %}<li>{{ p.title }} — {{ p.c }}</li>{% endfor %}</ul>
+{% endblock %}

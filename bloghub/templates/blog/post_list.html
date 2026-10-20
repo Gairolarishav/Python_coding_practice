@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+   {% if quote %}
+      <div class"card"><i>"{{quote.text}}"</i> - {{quote.author}}</div>
+   {% endif %}
+
+   <form method="get">
+      <input name="q" value="{{ q }}" placeholder="Search posts..">
+      <button>Search</button>
+   </form>
+
+   {% for post in posts %}
+      {% include 'partials/post_card.html' %}
+      <p class="small">💬 {{ post.comment_count }} comments</p>
+   {% empty %}
+      <p>No posts found.</p>
+   {% endfor %}
+
+   {% if is_paginated %}
+      <p>
+        {% if page_obj.has_previous %} 
+           <a href="?page={{page_obj.previous_page_number}}&q={{q}}">Prev</a>
+        {% endif %}
+        Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+        {% if page_obj.has_next %} 
+           <a href="?page={{page_obj.next_page_number}}&q={{q}}">Next</a>
+        {% endif %}
+      </p>
+   {% endif %}
+{% endblock %}
